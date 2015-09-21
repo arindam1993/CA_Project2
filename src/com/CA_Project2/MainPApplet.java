@@ -14,6 +14,8 @@ public class MainPApplet extends PApplet {
 	
 	public static MainPApplet Instance;
 	
+	//Spiral
+	SpiralGenerator sg1;
 	
 	public void settings() {  size(1280, 960, P2D);  smooth(); }
 	
@@ -23,7 +25,10 @@ public class MainPApplet extends PApplet {
 		
 		abFace = loadImage("data/portrait_bose.jpg");  // replace with arindam's pic
 		thFace = loadImage("data/portrait_travis.png");
-		frameRate(30);
+		frameRate(60);
+		
+		//Create spiral
+		sg1 = new SpiralGenerator(P(100,100), P(300,100), P(150, 500));
 	}
 	
 	public void draw() { 
@@ -31,8 +36,14 @@ public class MainPApplet extends PApplet {
 		
 		
 		displayHeader();
+		
+		sg1.draw();
 	}
 	
+	
+	public void mouseDragged(){
+		sg1.interact(mouseX, mouseY);
+	}
 	
 	/*
 	 * Headers on the project
@@ -435,7 +446,7 @@ public class MainPApplet extends PApplet {
 		  }	  
 		  
 		// LecturesInGraphics: utilities
-		// Authors: arindam bose, john turner
+		// Authors: arindam bose, travis hint
 		    // to save screen shots as PDFs
 		PImage thFace; // picture of author's face, should be: data/pic.jpg in sketch folder
 		PImage abFace; // picture of author's face, should be: data/pic.jpg in sketch folder
