@@ -38,7 +38,7 @@ public class SpiralGenerator {
 		pApp = MainPApplet.Instance;
 		
 		//Create the cache
-		preCompPts = new pt[126];
+		preCompPts = new pt[500];
 		calcParams();
 		
 	}
@@ -61,7 +61,7 @@ public class SpiralGenerator {
 		
 		int ptCtr = 0;
 		//Recompute points in cache
-		for(float th = (float) ( 2*Math.PI); th > -2*Math.PI ; th-=0.1){
+		for(float th = (float) ( 2*Math.PI); ptCtr < preCompPts.length ; th-=0.1){
 			//Get polar co-ordinate R
 			
 			float R = (float) (this.a * Math.exp(this.b * th));
@@ -82,13 +82,13 @@ public class SpiralGenerator {
 	public void draw(){
 
 		//Draw control points
-		pApp.pen(pApp.red, 3.0f);
+		pApp.pen(pApp.red, 20.0f);
 		pApp.show(f);
 		//Draw control points
-		pApp.pen(pApp.black, 3.0f);
+		pApp.pen(pApp.black, 20.0f);
 		pApp.show(p1);
 		//Draw control points
-		pApp.pen(pApp.green, 3.0f);
+		pApp.pen(pApp.green, 20.0f);
 		pApp.show(p2);
 		
 		//Draw points from cache
