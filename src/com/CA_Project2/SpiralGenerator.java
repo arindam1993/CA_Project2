@@ -96,6 +96,60 @@ public class SpiralGenerator {
 			pApp.pen(pApp.blue, 2.0f);
 			pApp.show(p);
 		}
+	}	
+	// ensure radii ratio is consistently less than 1
+	private boolean constrainingError(pt pIn, int ident)
+	{
+		float r1, r2;
+		vec v1, v2, vf;
+		
+		// inversion check
+		if (ident == 0)
+		{   // f
+			r1 = pApp.d(pIn, p1);
+			r2 = pApp.d(pIn, p2);
+			if (r1 >= r2*0.9) return true;
+		}
+		else if (ident == 1)
+		{   // p1
+			r1 = pApp.d(f, pIn);
+			r2 = pApp.d(f, p2);
+			if (r1 >= r2*0.9) return true;
+		}
+		else if (ident == 2)
+		{   // p2
+			r1 = pApp.d(f, p1);
+			r2 = pApp.d(f, pIn);
+			if (r1 >= r2*0.9) return true;
+		}
+		
+		// check if points are about to be colinear which is forbidden
+		if (ident == 0)
+		{   // f
+			v1 = pApp.V(pIn, p1);
+			v1.normalize();
+			v2 = pApp.V(pIn, p2);
+			v2.normalize();
+			if (pApp.det(v1,  v2) <= 0.05) return true;
+		}
+		else if (ident == 1)
+		{   // p1
+			v1 = pApp.V(f, pIn);
+			v1.normalize();
+			v2 = pApp.V(f, p2);
+			v2.normalize();
+			if (pApp.det(v1,  v2) <= 0.05) return true;
+		}
+		else if (ident == 2)
+		{   // p2
+			v1 = pApp.V(f, p1);
+			v1.normalize();
+			v2 = pApp.V(f, pIn);
+			v2.normalize();
+			if (pApp.det(v1,  v2) <= 0.05) return true;
+		}
+		
+		return false;
 	}
 	
 	//Call in mouse dragged to interact with spiral
@@ -111,6 +165,7 @@ public class SpiralGenerator {
 	}
 
 	public void setP1(pt p1) {
+		if (constrainingError(p1,1)) return;
 		this.p1 = p1;
 		//Recalculate
 		calcParams();
@@ -121,6 +176,7 @@ public class SpiralGenerator {
 	}
 
 	public void setP2(pt p2) {
+		if (constrainingError(p2,2)) return;
 		this.p2 = p2;
 		//Recalculate
 		calcParams();
@@ -131,6 +187,7 @@ public class SpiralGenerator {
 	}
 
 	public void setF(pt f) {
+		if (constrainingError(f,0)) return;
 		this.f = f;
 		//Recalculate
 		calcParams();

@@ -17,7 +17,7 @@ public class MainPApplet extends PApplet {
 	//Spiral
 	SpiralGenerator sg1;
 	
-	public void settings() {  size(1280, 960, P2D);  smooth(); }
+	public void settings() {  size(800, 600, P2D); smooth(); }
 	
 	public void setup() {
 		
@@ -28,7 +28,7 @@ public class MainPApplet extends PApplet {
 		frameRate(60);
 		
 		//Create spiral
-		sg1 = new SpiralGenerator(P(100,100), P(300,100), P(150, 500));
+		sg1 = new SpiralGenerator(P(100,100), P(500,100), P(200, 400));
 	}
 	
 	public void draw() { 
@@ -369,6 +369,7 @@ public class MainPApplet extends PApplet {
 		// measure 
 		public float dot(vec U, vec V) {return U.x*V.x+U.y*V.y; }                                                     // dot(U,V): U*V (dot product U*V)
 		public float det(vec U, vec V) {return dot(R(U),V); }                                                         // det | U V | = scalar cross UxV 
+		public float det(pt U, pt V) {return U.x*V.y - U.y*V.x; }        											  // abused notation when necessary of above
 		public float n(vec V) {return sqrt(dot(V,V));};                                                               // n(V): ||V|| (norm: length of V)
 		public float n2(vec V) {return sq(V.x)+sq(V.y);};                                                             // n2(V): V*V (norm squared)
 		public boolean parallel (vec U, vec V) {return dot(U,R(V))==0; }; 
