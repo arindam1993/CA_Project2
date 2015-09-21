@@ -7,7 +7,7 @@ import com.CA_Project2.MainPApplet.vec;
  * Equation(Polar):
  * r = a * exp^(b * theta)
  * 
- * Calculating a and b
+ * Recalculating a and b whenever user moves the points.
  */
 public class SpiralGenerator {
 	
@@ -37,6 +37,7 @@ public class SpiralGenerator {
 		calcParams();
 	}
 	
+	//Recalculates a and b
 	private void calcParams(){
 		//Get r1 and r2, distance from center to p1 and p2
 		float r1 = pApp.d(f, p1);
