@@ -25,6 +25,9 @@ public class SpiralGenerator {
 	//Cache PApplet Ref
 	private MainPApplet pApp;
 	
+	//Cache points
+	private pt[] preCompPts;
+	
 	//Constructor
 	public SpiralGenerator(pt p1, pt p2, pt f){
 		this.p1 = p1;
@@ -34,7 +37,10 @@ public class SpiralGenerator {
 		//Get instance from global static reference
 		pApp = MainPApplet.Instance;
 		
+		//Create the cache
+		preCompPts = new pt[126];
 		calcParams();
+		
 	}
 	
 	//Recalculates a and b
@@ -51,37 +57,45 @@ public class SpiralGenerator {
 		//Set params
 		this.b = (float) ((float) Math.log(r1/r2)/theta1);
 		this.a = (float)((float) r2/ Math.exp(this.b * 2 * Math.PI));
+		
+		
+		int ptCtr = 0;
+		//Recompute points in cache
+		for(float th = (float) ( 2*Math.PI); th > -2*Math.PI ; th-=0.1){
+			//Get polar co-ordinate R
+			
+			float R = (float) (this.a * Math.exp(this.b * th));
+			
+			vec fp12 = pApp.V(f, p2).normalize();
+			fp12.rotateBy((float) (-(2*Math.PI - th))).scaleBy(R);
+			
+			pt result = pApp.P(f, fp12);
+			
+			preCompPts[ptCtr] = result;
+			ptCtr++;
+			
+		}
+
 	}
 	
 	//Call this in PApplets draw function to render the spiral
 	public void draw(){
+
+		//Draw control points
+		pApp.pen(pApp.red, 3.0f);
+		pApp.show(f);
+		//Draw control points
+		pApp.pen(pApp.black, 3.0f);
+		pApp.show(p1);
+		//Draw control points
+		pApp.pen(pApp.green, 3.0f);
+		pApp.show(p2);
 		
-		for(float th = (float) ( 2*Math.PI); th > -2*Math.PI ; th-=0.1){
-			//Get polar co-ordinate R
-			float R = (float) (this.a * Math.exp(this.b * th));
-			
-			vec fp1 = pApp.V(f, p2).normalize();
-			fp1.rotateBy((float) (-(2*Math.PI - th))).scaleBy(R);
-			
-			pt result = pApp.P(f, fp1);
-			
-			
-			
-			//Draw
+		//Draw points from cache
+		for(pt p:preCompPts){
 			pApp.pen(pApp.blue, 2.0f);
-			pApp.show(result);
-			
-			//Draw control points
-			pApp.pen(pApp.red, 3.0f);
-			pApp.show(f);
-			//Draw control points
-			pApp.pen(pApp.black, 3.0f);
-			pApp.show(p1);
-			//Draw control points
-			pApp.pen(pApp.green, 3.0f);
-			pApp.show(p2);
+			pApp.show(p);
 		}
-		
 	}
 	
 	//Call in mouse dragged to interact with spiral
