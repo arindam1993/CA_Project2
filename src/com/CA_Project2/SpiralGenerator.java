@@ -26,7 +26,8 @@ public class SpiralGenerator {
 	private MainPApplet pApp;
 	
 	//Constructor
-	public SpiralGenerator(pt p1, pt p2, pt f){
+	public SpiralGenerator(pt p1, pt p2, pt f)
+	{
 		this.p1 = p1;
 		this.p2 = p2;
 		this.f = f;
@@ -38,7 +39,8 @@ public class SpiralGenerator {
 	}
 	
 	//Recalculates a and b
-	private void calcParams(){
+	private void calcParams()
+	{
 		//Get r1 and r2, distance from center to p1 and p2
 		float r1 = pApp.d(f, p1);
 		float r2 = pApp.d(f, p2);
@@ -53,10 +55,39 @@ public class SpiralGenerator {
 		this.a = (float)((float) r2/ Math.exp(this.b * 2 * Math.PI));
 	}
 	
-	//Call this in PApplets draw function to render the spiral
-	public void draw(){
+	//ensure radii ratio is consistently less than 1
+	private boolean constrainingError(pt pIn, int ident)
+	{
+		float r1;
+		float r2;
 		
-		for(float th = (float) ( 2*Math.PI); th > -2*Math.PI ; th-=0.1){
+		if (ident == 0)
+		{   // f
+			r1 = pApp.d(pIn, p1);
+			r2 = pApp.d(pIn, p2);
+			if (r1 >= r2*0.99) return true;
+		}
+		else if (ident == 1)
+		{   // f
+			r1 = pApp.d(f, pIn);
+			r2 = pApp.d(f, p2);
+			if (r1 >= r2*0.99) return true;
+		}
+		else if (ident == 2)
+		{   // f
+			r1 = pApp.d(f, p1);
+			r2 = pApp.d(f, pIn);
+			if (r1 >= r2*0.99f) return true;
+		}
+		return false;
+	}
+	
+	//Call this in PApplets draw function to render the spiral
+	public void draw()
+	{
+		float dist = pApp.MAX_FLOAT;
+		for(float th = (float) ( 2*Math.PI); dist > 15 ; th-=0.2)
+		{
 			//Get polar co-ordinate R
 			float R = (float) (this.a * Math.exp(this.b * th));
 			
@@ -65,11 +96,12 @@ public class SpiralGenerator {
 			
 			pt result = pApp.P(f, fp1);
 			
-			
+			dist = pApp.d(f, result);
+			float r1 = pApp.max(pApp.min(dist/100f,10f), 0.5f);
 			
 			//Draw
-			pApp.pen(pApp.blue, 2.0f);
-			pApp.show(result);
+			pApp.pen(pApp.blue, 3.0f);
+			pApp.show(result,r1);
 			
 			//Draw control points
 			pApp.pen(pApp.red, 3.0f);
@@ -97,6 +129,7 @@ public class SpiralGenerator {
 	}
 
 	public void setP1(pt p1) {
+		if (constrainingError(p1,1)) return;
 		this.p1 = p1;
 		//Recalculate
 		calcParams();
@@ -107,6 +140,7 @@ public class SpiralGenerator {
 	}
 
 	public void setP2(pt p2) {
+		if (constrainingError(p2,2)) return;
 		this.p2 = p2;
 		//Recalculate
 		calcParams();
@@ -117,6 +151,7 @@ public class SpiralGenerator {
 	}
 
 	public void setF(pt f) {
+		if (constrainingError(f,0)) return;
 		this.f = f;
 		//Recalculate
 		calcParams();

@@ -17,7 +17,7 @@ public class MainPApplet extends PApplet {
 	//Spiral
 	SpiralGenerator sg1;
 	
-	public void settings() {  size(1280, 960, P2D);  smooth(); }
+	public void settings() {  size(800, 600, P2D);  smooth(); }
 	
 	public void setup() {
 		
@@ -28,10 +28,11 @@ public class MainPApplet extends PApplet {
 		frameRate(60);
 		
 		//Create spiral
-		sg1 = new SpiralGenerator(P(100,100), P(300,100), P(150, 500));
+		sg1 = new SpiralGenerator(P(100,100), P(500,100), P(200, 400));
 	}
 	
-	public void draw() { 
+	public void draw() 
+	{ 
 		background(white);
 		
 		
