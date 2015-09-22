@@ -28,7 +28,7 @@ public class SpiralGenerator {
 	//Cache points
 	private pt[] preCompPts;
 	
-	private int increment = 15;
+	private float increment = (float)Math.PI/2;
 	
 	public boolean pattern = true;
 	public boolean source = false;
@@ -128,12 +128,8 @@ public class SpiralGenerator {
 		for(float th = (float) ( 2*Math.PI); ptCtr < preCompPts.length ; th-=0.1){
 			//Get polar co-ordinate R
 			
-			float R = (float) (this.a * Math.exp(this.b * th));
 			
-			vec fp12 = pApp.V(f, p2).normalize();
-			fp12.rotateBy((float) (-(2*Math.PI - th))).scaleBy(R);
-			
-			pt result = pApp.P(f, fp12);
+			pt result = computeVal(th);
 			
 			preCompPts[ptCtr].x = result.x;
 			preCompPts[ptCtr].y = result.y;
@@ -141,6 +137,17 @@ public class SpiralGenerator {
 			
 		}
 
+	}
+	
+	public pt computeVal(float th){
+		float R = (float) (this.a * Math.exp(this.b * th));
+		
+		vec fp12 = pApp.V(f, p2).normalize();
+		fp12.rotateBy((float) (-(2*Math.PI - th))).scaleBy(R);
+		
+		pt result = pApp.P(f, fp12);
+		
+		return result;
 	}
 	
 	//Call this in PApplets draw function to render the spiral
@@ -158,13 +165,14 @@ public class SpiralGenerator {
 		
 		//Draw points from cache
 		pApp.noFill();
-		
+
 		if(pattern)
 		{
 			pApp.pen(pApp.green, 2.0f);
 			pApp.beginShape();
-			for(int i=0;i<preCompPts.length;i+=increment){
-				pt p = preCompPts[i];;
+			
+			for(float pI = (float) (2*Math.PI); pI> -50*Math.PI ; pI-=increment){
+				pt p = computeVal(pI);
 				pApp.vertex(p.x, p.y);
 			}
 			pApp.endShape();
@@ -196,11 +204,11 @@ public class SpiralGenerator {
 	
 	
 	public void makeDetailed(){
-		if(increment >  5) increment--;
+		if(increment >  Math.PI/4) increment-=0.005f;
 	}
 	
 	public void makeCoarse(){
-		increment++;
+		increment+=0.005f;
 	}
 
 	public pt getP1() {
