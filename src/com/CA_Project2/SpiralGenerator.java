@@ -30,6 +30,9 @@ public class SpiralGenerator {
 	
 	private int increment = 15;
 	
+	public boolean pattern = true;
+	public boolean source = false;
+	
 	//Constructor
 	public SpiralGenerator(pt p1, pt p2, pt f){
 		this.p1 = p1;
@@ -100,15 +103,28 @@ public class SpiralGenerator {
 		
 		//Draw points from cache
 		pApp.noFill();
-		pApp.pen(pApp.green, 2.0f);
-		pApp.beginShape();
-		for(int i=0;i<preCompPts.length;i+=increment){
-			pt p = preCompPts[i];
-//			pApp.pen(pApp.blue, 2.0f);
-//			pApp.show(p);
-			pApp.vertex(p.x, p.y);
+		
+		if(pattern)
+		{
+			pApp.pen(pApp.green, 2.0f);
+			pApp.beginShape();
+			for(int i=0;i<preCompPts.length;i+=increment){
+				pt p = preCompPts[i];;
+				pApp.vertex(p.x, p.y);
+			}
+			pApp.endShape();
 		}
-		pApp.endShape();
+		
+		if(source)
+		{
+			pApp.pen(pApp.sand, 1.0f);
+			pApp.beginShape();
+			for(int i=0;i<300;i++){
+				pt p = preCompPts[i];
+				pApp.vertex(p.x, p.y);
+			}
+			pApp.endShape();
+		}
 		
 //		System.out.println("Inc" + increment);
 //		System.out.println(p1 + " " + p2 + " " + f);
@@ -124,7 +140,7 @@ public class SpiralGenerator {
 	
 	
 	public void makeDetailed(){
-		if(increment >  1) increment--;
+		if(increment >  5) increment--;
 	}
 	
 	public void makeCoarse(){

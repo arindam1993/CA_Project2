@@ -48,6 +48,8 @@ public class MainPApplet extends PApplet {
 	public void keyPressed(){
 		if(key == '.') sg1.makeDetailed();
 		if(key == ',') sg1.makeCoarse();
+		if(key == 's') sg1.source = !sg1.source ;
+		if(key == 'p') sg1.pattern = !sg1.pattern;
 	}
 	
 	/*
