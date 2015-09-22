@@ -28,6 +28,8 @@ public class SpiralGenerator {
 	//Cache points
 	private pt[] preCompPts;
 	
+	private int increment = 15;
+	
 	//Constructor
 	public SpiralGenerator(pt p1, pt p2, pt f){
 		this.p1 = p1;
@@ -38,7 +40,11 @@ public class SpiralGenerator {
 		pApp = MainPApplet.Instance;
 		
 		//Create the cache
-		preCompPts = new pt[500];
+		preCompPts = new pt[1000];
+		for(int i = 0; i< 1000;i++){
+			preCompPts[i] = pApp.P();
+		}
+		
 		calcParams();
 		
 	}
@@ -71,7 +77,8 @@ public class SpiralGenerator {
 			
 			pt result = pApp.P(f, fp12);
 			
-			preCompPts[ptCtr] = result;
+			preCompPts[ptCtr].x = result.x;
+			preCompPts[ptCtr].y = result.y;
 			ptCtr++;
 			
 		}
@@ -92,10 +99,19 @@ public class SpiralGenerator {
 		pApp.show(p2);
 		
 		//Draw points from cache
-		for(pt p:preCompPts){
-			pApp.pen(pApp.blue, 2.0f);
-			pApp.show(p);
+		pApp.noFill();
+		pApp.pen(pApp.green, 2.0f);
+		pApp.beginShape();
+		for(int i=0;i<preCompPts.length;i+=increment){
+			pt p = preCompPts[i];
+//			pApp.pen(pApp.blue, 2.0f);
+//			pApp.show(p);
+			pApp.vertex(p.x, p.y);
 		}
+		pApp.endShape();
+		
+//		System.out.println("Inc" + increment);
+//		System.out.println(p1 + " " + p2 + " " + f);
 	}
 	
 	//Call in mouse dragged to interact with spiral
@@ -104,6 +120,15 @@ public class SpiralGenerator {
 		if(pApp.d(p1, mouse) < 10.0f) this.setP1(mouse);
 		else if(pApp.d(p2, mouse) < 10.0f) this.setP2(mouse);
 		else if(pApp.d(f, mouse) < 10.0f) this.setF(mouse);
+	}
+	
+	
+	public void makeDetailed(){
+		if(increment >  1) increment--;
+	}
+	
+	public void makeCoarse(){
+		increment++;
 	}
 
 	public pt getP1() {

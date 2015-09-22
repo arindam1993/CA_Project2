@@ -28,7 +28,7 @@ public class MainPApplet extends PApplet {
 		frameRate(60);
 		
 		//Create spiral
-		sg1 = new SpiralGenerator(P(100,100), P(300,100), P(150, 500));
+		sg1 = new SpiralGenerator(P(315,321), P(833,345), P(561, 471));
 	}
 	
 	public void draw() { 
@@ -43,6 +43,11 @@ public class MainPApplet extends PApplet {
 	
 	public void mouseDragged(){
 		sg1.interact(mouseX, mouseY);
+	}
+	
+	public void keyPressed(){
+		if(key == '.') sg1.makeDetailed();
+		if(key == ',') sg1.makeCoarse();
 	}
 	
 	/*
