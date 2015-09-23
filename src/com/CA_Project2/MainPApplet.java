@@ -11,15 +11,27 @@ import processing.pdf.*;
 
 public class MainPApplet extends PApplet {
 
+	/*
+	 * Headers on the project
+	 */
+	
+	String title ="CA 2015 P2: Pattern Generator", 
+			name ="Students: Arindam Bose and Travis Hint";
+	String instructions = "";
 	
 	public static MainPApplet Instance;
 	
 	//Spiral
 	SpiralGenerator sg1;
 	
-	public void settings() {  size(1280, 960, P2D);  smooth(); }
+	public void settings() {  size(800, 600, P2D); smooth(); }
 	
 	public void setup() {
+		
+		instructions = "Instructions:\n";
+		instructions += "*Press 2 through 8 to create a spiral of that natural number degree\n";
+		instructions += "*Use < and > to move a small fraction of a degree away from the current position\n";
+		instructions += "*Drag the green and black points to adjust the ratio of radii of vectors to these points";
 		
 		Instance = this;
 		
@@ -28,7 +40,7 @@ public class MainPApplet extends PApplet {
 		frameRate(60);
 		
 		//Create spiral
-		sg1 = new SpiralGenerator(P(315,321), P(833,345), P(561, 471));
+		sg1 = new SpiralGenerator(P(315,321), P(700,200), P(561, 471));	
 	}
 	
 	public void draw() { 
@@ -50,14 +62,11 @@ public class MainPApplet extends PApplet {
 		if(key == ',') sg1.makeCoarse();
 		if(key == 's') sg1.source = !sg1.source ;
 		if(key == 'p') sg1.pattern = !sg1.pattern;
+	    int intCheck = key;
+		if (intCheck >= 0x32 && intCheck <= 0x38){
+			sg1.setIncrement(intCheck-0x30);
+		}
 	}
-	
-	/*
-	 * Headers on the project
-	 */
-	
-	String title ="CA 2015 P2: Pattern Generator", 
-		       name ="Students: Arindam Bose and Travis Hint";
 	
 	
 	//************************************************************************
@@ -376,6 +385,7 @@ public class MainPApplet extends PApplet {
 		// measure 
 		public float dot(vec U, vec V) {return U.x*V.x+U.y*V.y; }                                                     // dot(U,V): U*V (dot product U*V)
 		public float det(vec U, vec V) {return dot(R(U),V); }                                                         // det | U V | = scalar cross UxV 
+		public float det(pt U, pt V) {return U.x*V.y - U.y*V.x; }        											  // abused notation when necessary of above
 		public float n(vec V) {return sqrt(dot(V,V));};                                                               // n(V): ||V|| (norm: length of V)
 		public float n2(vec V) {return sq(V.x)+sq(V.y);};                                                             // n2(V): V*V (norm squared)
 		public boolean parallel (vec U, vec V) {return dot(U,R(V))==0; }; 
@@ -477,7 +487,7 @@ public class MainPApplet extends PApplet {
 		public void scribeAtMouse(String S) {fill(0); text(S,mouseX,mouseY); noFill();} // writes on screen near mouse
 		public void scribeMouseCoordinates() {fill(black); text("("+mouseX+","+mouseY+")",mouseX+7,mouseY+25); noFill();}
 		public void displayHeader() { // Displays title and authors face on screen
-		    scribeHeader(title,0); scribeHeaderRight(name); 
+		    scribeHeader(title,0); scribeHeaderRight(name); scribeHeader(instructions,1);
 		    image(thFace,  width-125,25,100,100);
 		    image(abFace,  width-225,25,100,100); 		//replace with arindam's face
 		    //image(abFace, width-myFace.width/2,25,myFace.width/2,myFace.height/2); 

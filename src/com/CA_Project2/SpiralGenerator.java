@@ -59,25 +59,25 @@ public class SpiralGenerator {
 			vec v1, v2, vf;
 			
 			// inversion check
-//			if (ident == 0)
-//			{   // f
-//				r1 = pApp.d(pIn, p1);
-//				r2 = pApp.d(pIn, p2);
-//				if (r1 >= r2*0.9) return true;
-//			}
-//			else if (ident == 1)
-//			{   // p1
-//				r1 = pApp.d(f, pIn);
-//				r2 = pApp.d(f, p2);
-//				if (r1 >= r2*0.9) return true;
-//			}
-//			else if (ident == 2)
-//			{   // p2
-//				r1 = pApp.d(f, p1);
-//				r2 = pApp.d(f, pIn);
-//				if (r1 >= r2*0.9) return true;
-//			}
-//			
+			if (ident == 0)
+			{   // f
+				r1 = pApp.d(pIn, p1);
+				r2 = pApp.d(pIn, p2);
+				if (r1 >= r2*0.99) return true;
+			}
+			else if (ident == 1)
+			{   // p1
+				r1 = pApp.d(f, pIn);
+				r2 = pApp.d(f, p2);
+				if (r1 >= r2*0.99) return true;
+			}
+			else if (ident == 2)
+			{   // p2
+				r1 = pApp.d(f, p1);
+				r2 = pApp.d(f, pIn);
+				if (r1 >= r2*0.99) return true;
+			}
+		
 			// check if points are about to be colinear which is forbidden
 			if (ident == 0)
 			{   // f
@@ -189,9 +189,6 @@ public class SpiralGenerator {
 			}
 			pApp.endShape();
 		}
-		
-//		System.out.println("Inc" + increment);
-//		System.out.println(p1 + " " + p2 + " " + f);
 	}
 	
 	//Call in mouse dragged to interact with spiral
@@ -209,6 +206,15 @@ public class SpiralGenerator {
 	
 	public void makeCoarse(){
 		increment+=0.005f;
+	}
+	
+	public void setIncrement(int inc){
+		if (inc % 2 == 0){
+			increment = pApp.PI*1.0f / (inc/2.0f);
+		}
+		else{
+			increment = pApp.PI*2.0f / inc;
+		}
 	}
 
 	public pt getP1() {
