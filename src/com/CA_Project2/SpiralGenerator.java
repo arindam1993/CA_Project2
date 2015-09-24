@@ -28,7 +28,7 @@ public class SpiralGenerator {
 	//Cache points
 	private pt[] preCompPts;
 	
-	private float increment = (float)Math.PI/2;
+	private float increment = (float)Math.PI*2/5.0f;
 	
 	public boolean pattern = true;
 	public boolean source = false;

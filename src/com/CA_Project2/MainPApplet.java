@@ -40,7 +40,7 @@ public class MainPApplet extends PApplet {
 		frameRate(60);
 		
 		//Create spiral
-		sg1 = new SpiralGenerator(P(315,321), P(700,200), P(561, 471));	
+		sg1 = new SpiralGenerator(P(118,255), P(485,205), P(315, 376));	//481,210
 	}
 	
 	public void draw() { 
