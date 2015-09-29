@@ -24,14 +24,16 @@ public class MainPApplet extends PApplet {
 	//Spiral
 	SpiralGenerator sg1;
 	
-	public void settings() {  size(800, 600, P2D); smooth(); }
+	public void settings() {  size(1280, 720); smooth(); }
 	
 	public void setup() {
 		
 		instructions = "Instructions:\n";
 		instructions += "*Press 2 through 8 to create a spiral of that natural number degree\n";
 		instructions += "*Use < and > to move a small fraction of a degree away from the current position\n";
-		instructions += "*Drag the green and black points to adjust the ratio of radii of vectors to these points";
+		instructions += "*Drag the green and black points to adjust the ratio of radii of vectors to these points\n";
+		instructions += "* P to toggle the pattern";
+		instructions += "* S to toggle the source Loarithmic Spiral";
 		
 		Instance = this;
 		
